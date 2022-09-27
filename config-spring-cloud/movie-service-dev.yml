@@ -2,25 +2,17 @@ server:
   port: 8082
 
 spring:
-  eureka:
-    client:
-      service-url:
-        defaultZone: http://localhost:8761/eureka
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;
-    username: sa
-    password: sa
-  sql:
-    init:
-      data-locations: classpath:movie.sql
   jpa:
-    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://mysql:3307/tp_final
+    username: user
+    password: pass
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 info:
   app:
-    name: movie-service
-    description: Movie Service created for Parcial
+    name: ${spring.application.name}
     version: 1.0.0
+    description: Movie Microservice

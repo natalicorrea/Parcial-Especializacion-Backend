@@ -1,39 +1,50 @@
 package com.dh.catalogservice.Controller;
 
-import com.dh.catalogservice.Model.CatalogDto;
-import com.dh.catalogservice.Service.ICatalogService;
+import com.dh.catalogservice.Model.MovieDto;
+import com.dh.catalogservice.Model.SerieDto;
+import com.dh.catalogservice.Service.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/catalogs")
 public class CatalogController {
 
-	@Value("${server.port}")
-	private String port;
-
-	private ICatalogService catalogService;
+	private final CatalogService catalogService;
 
 	@Autowired
-	public CatalogController(ICatalogService catalogService) {
+	public CatalogController(CatalogService catalogService){
 		this.catalogService = catalogService;
 	}
 
+	// por medio de cliente feign obtengo la lista de peliculas por genero
 	@GetMapping("/{genre}")
-	ResponseEntity<CatalogDto> getCatalogByGenre(@PathVariable String genre, HttpServletResponse response) {
-		CatalogDto playlistDTO = catalogService.getCatalogByGenre(genre);
-		response.addHeader("port", port);
-		return Objects.isNull(playlistDTO)
-				? new ResponseEntity<>(HttpStatus.NOT_FOUND)
-				: new ResponseEntity<>(playlistDTO, HttpStatus.OK);
+	public ResponseEntity<List<MovieDto>> getGenre(@PathVariable String genre){
+		return catalogService.findMovieByGenre(genre);
 	}
+
+	@GetMapping("/withErrors/{genre}")
+	public ResponseEntity<List<MovieDto>> getGenre(@PathVariable String genre, @RequestParam("throwError") boolean throwError){
+		return catalogService.findMovieByGenre(genre, throwError);
+	}
+
+	// Guardar catalogo usando RabbitMQ
+	@PostMapping("/save")
+	public ResponseEntity<String> saveMovie(@RequestBody MovieDto movieDto){
+		catalogService.saveMovie(movieDto);
+		return ResponseEntity.ok("Movie was sent to queue");
+	}
+
+	//Guardar serie usando RabbitMQ
+	@PostMapping("/save/series")
+	public ResponseEntity<String> saveSeries(@RequestBody SerieDto serieDto){
+		catalogService.saveSeries(serieDto);
+		return ResponseEntity.ok("Series was sent to queue");
+	}
+
+
 }

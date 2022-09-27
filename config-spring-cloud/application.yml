@@ -1,13 +1,17 @@
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+# Actuator
+spring:
+  zipkin:
+    enabled: true
+    baseUrl: http://zipkin:9411 #zipkin container name
 
 management:
-  info:
-    env:
-      enabled: true
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: "*"
+  info:
+    env:
+      enabled: true
+  endpoint:
+    info:
+      enabled: true

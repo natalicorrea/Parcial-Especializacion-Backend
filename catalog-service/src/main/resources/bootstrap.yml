@@ -3,8 +3,26 @@ spring:
     name: catalog-service
   cloud:
     config:
+      fail-fast: true
       discovery:
         enabled: true
         service-id: config-service
+  rabbitmq:
+    username: guest
+    password: guest
+    host: rabbitmq
+    port: 5672
   profiles:
     active: dev
+
+  # cola a la que nos conectamos - catalog - producer
+  queue:
+    movie:
+      name: Movie
+    series:
+      name: Serie
+
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://eureka-service:8761/eureka #contenedor de eureka

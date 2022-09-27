@@ -11,23 +11,34 @@ spring:
           uri: lb://movie-service
           predicates:
             - Path=/movies/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: moviesService
+                fallbackUri: forward:/fallback/movies
         - id: catalogRoute
           uri: lb://catalog-service
           predicates:
             - Path=/catalogs/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: catalogService
+                fallbackUri: forward:/fallback/catalogs
+        - id: seriesRoute
+          uri: lb://series-service
+          predicates:
+            - Path=/series/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: seriesService
+                fallbackUri: forward:/fallback/series
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,gateway
+
 info:
   app:
-    name: gateway-service
-    description: Gateway Service created for Parcial
+    name: ${spring.application.name}
     version: 1.0.0
+    description: API Gateway
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka

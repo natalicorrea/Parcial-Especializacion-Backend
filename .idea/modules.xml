@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/eureka-service/eureka-service.iml" filepath="$PROJECT_DIR$/eureka-service/eureka-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gateway-service/gateway-service.iml" filepath="$PROJECT_DIR$/gateway-service/gateway-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/movie-service/movie-service.iml" filepath="$PROJECT_DIR$/movie-service/movie-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serie-service/serie-service.iml" filepath="$PROJECT_DIR$/serie-service/serie-service.iml" />
     </modules>
   </component>
 </project>

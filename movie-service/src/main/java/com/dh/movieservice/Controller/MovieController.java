@@ -1,9 +1,8 @@
 package com.dh.movieservice.Controller;
 
 import com.dh.movieservice.Model.Movie;
-import com.dh.movieservice.Service.IMovieService;
+import com.dh.movieservice.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,24 +13,22 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
 
-    @Value("${server.port}")
-    private String port;
-
-    private final IMovieService movieService;
-
+    private final MovieService movieService;
     @Autowired
-    public MovieController(IMovieService movieService) {
+    public MovieController(MovieService movieService){
         this.movieService = movieService;
     }
 
     @GetMapping("/{genre}")
-    public ResponseEntity<List<Movie>> getMovieByGenre(@PathVariable String genre) {
-        System.out.println("El puerto es: " + port);
-        return ResponseEntity.ok().body(movieService.getListByGenre(genre));
+    ResponseEntity<List<Movie>> getMovieByGenre(@PathVariable String genre){
+        return ResponseEntity.ok().body(movieService.findByGenre(genre));
     }
 
-    @PostMapping
-    public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
-        return ResponseEntity.ok().body(movieService.save(movie));
+    @GetMapping("/withErrors/{genre}")
+    ResponseEntity<List<Movie>> getMovieByGenre(@PathVariable String genre, @RequestParam("throwError") boolean throwError){
+        return ResponseEntity.ok().body(movieService.findByGenre(genre, throwError));
     }
+
+
+
 }

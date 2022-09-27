@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
     private String genre;
     private String urlStream;
@@ -18,11 +18,11 @@ public class Movie {
         //No-args constructor
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

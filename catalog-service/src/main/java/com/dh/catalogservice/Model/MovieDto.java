@@ -1,7 +1,7 @@
 package com.dh.catalogservice.Model;
 
 public class MovieDto {
-    private Integer id;
+    private Long id;
     private String name;
     private String genre;
     private String urlStream;
@@ -10,11 +10,11 @@ public class MovieDto {
         //No-args constructor
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,7 +44,7 @@ public class MovieDto {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "MovieDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", genre='" + genre + '\'' +
